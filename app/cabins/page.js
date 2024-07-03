@@ -4,7 +4,7 @@ export const metadata = {
     title: 'Cabins'
 }
 
-function Page() {
+function page() {
     const cabins = [];
 
     return (
@@ -32,4 +32,4 @@ function Page() {
     )
 }
 
-export default Page;
+export default page
