@@ -45,6 +45,30 @@ export const getCabins = async function () {
   return data;
 };
 
+export async function getCabinsId() {
+  const { data, error } = await supabase.from('cabins').select('id');
+
+  if (error) {
+    console.error(error);
+    throw new Error('Cabins could not be loaded');
+  }
+
+  const ids = data.map(cabin => ({ cabinId: String(cabin.id) }));
+
+  return ids;
+}
+
+export async function getCabinsNum() {
+  const { count, error } = await supabase.from('cabins').select('id', { count: 'exact', head: true });
+
+  if (error) {
+    console.error(error);
+    throw new Error('Cabins could not be loaded');
+  }
+
+  return count;
+}
+
 // Guests are uniquely identified by their email address
 export async function getGuest(email) {
   const { data, error } = await supabase
