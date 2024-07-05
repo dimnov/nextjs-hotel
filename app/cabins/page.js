@@ -2,13 +2,13 @@ import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
 
-export const revalidate = 3600;
-
 export const metadata = {
     title: 'Cabins'
 }
 
-async function Page() {
+async function Page({ searchParams }) {
+
+    const filter = searchParams?.capacity ?? 'all';
 
     return (
         <div>
@@ -25,7 +25,7 @@ async function Page() {
             </p>
 
             <Suspense fallback={<Spinner />}>
-                <CabinList />
+                <CabinList filter={filter} />
             </Suspense>
         </div>
     )
