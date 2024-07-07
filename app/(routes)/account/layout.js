@@ -1,4 +1,4 @@
-import SideNavigation from "../_components/SideNavigation";
+import SideNavigation from "../../_components/SideNavigation";
 
 export default function Layout({ children }) {
     return (
