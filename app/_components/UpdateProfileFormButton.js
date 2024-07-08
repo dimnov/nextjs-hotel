@@ -11,4 +11,4 @@ function UpdateProfileFormButton() {
     )
 }
 
-export default UpdateProfileFormButton
+export default UpdateProfileFormButton;
