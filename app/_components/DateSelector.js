@@ -9,9 +9,7 @@ function isAlreadyBooked(range, datesArr) {
   return (
     range.from &&
     range.to &&
-    datesArr.some((date) =>
-      isWithinInterval(date, { start: range.from, end: range.to })
-    )
+    datesArr.some((date) => isWithinInterval(date, { start: range.from, end: range.to }))
   );
 }
 
@@ -41,9 +39,7 @@ function DateSelector({ settings, cabin, bookedDates }) {
         captionLayout="dropdown"
         numberOfMonths={2}
         disabled={(curDate) =>
-          isPast(curDate) ||
-          bookedDates.some((date) =>
-            isSameDay(date, curDate))
+          isPast(curDate) || bookedDates.some((date) => isSameDay(date, curDate))
         }
       />
 
@@ -53,9 +49,7 @@ function DateSelector({ settings, cabin, bookedDates }) {
             {discount > 0 ? (
               <>
                 <span className="text-2xl">${regularPrice - discount}</span>
-                <span className="line-through font-semibold text-primary-700">
-                  ${regularPrice}
-                </span>
+                <span className="line-through font-semibold text-primary-700">${regularPrice}</span>
               </>
             ) : (
               <span className="text-2xl">${regularPrice}</span>

@@ -1,13 +1,9 @@
-import { eachDayOfInterval } from 'date-fns';
-import { supabase } from './supabase';
-import { notFound } from 'next/navigation';
+import { eachDayOfInterval } from "date-fns";
+import { supabase } from "./supabase";
+import { notFound } from "next/navigation";
 
 export async function getCabin(id) {
-  const { data, error } = await supabase
-    .from('cabins')
-    .select('*')
-    .eq('id', id)
-    .single();
+  const { data, error } = await supabase.from("cabins").select("*").eq("id", id).single();
 
   if (error) {
     console.error(error);
@@ -19,9 +15,9 @@ export async function getCabin(id) {
 
 export async function getCabinPrice(id) {
   const { data, error } = await supabase
-    .from('cabins')
-    .select('regularPrice, discount')
-    .eq('id', id)
+    .from("cabins")
+    .select("regularPrice, discount")
+    .eq("id", id)
     .single();
 
   if (error) {
@@ -33,62 +29,56 @@ export async function getCabinPrice(id) {
 
 export const getCabins = async function () {
   const { data, error } = await supabase
-    .from('cabins')
-    .select('id, name, maxCapacity, regularPrice, discount, image')
-    .order('name');
+    .from("cabins")
+    .select("id, name, maxCapacity, regularPrice, discount, image")
+    .order("name");
 
   if (error) {
     console.error(error);
-    throw new Error('Cabins could not be loaded');
+    throw new Error("Cabins could not be loaded");
   }
 
   return data;
 };
 
 export async function getCabinsId() {
-  const { data, error } = await supabase.from('cabins').select('id');
+  const { data, error } = await supabase.from("cabins").select("id");
 
   if (error) {
     console.error(error);
-    throw new Error('Cabins could not be loaded');
+    throw new Error("Cabins could not be loaded");
   }
 
-  const ids = data.map(cabin => ({ cabinId: String(cabin.id) }));
+  const ids = data.map((cabin) => ({ cabinId: String(cabin.id) }));
 
   return ids;
 }
 
 export async function getCabinsNum() {
-  const { count, error } = await supabase.from('cabins').select('id', { count: 'exact', head: true });
+  const { count, error } = await supabase
+    .from("cabins")
+    .select("id", { count: "exact", head: true });
 
   if (error) {
     console.error(error);
-    throw new Error('Cabins could not be loaded');
+    throw new Error("Cabins could not be loaded");
   }
 
   return count;
 }
 
 export async function getGuest(email) {
-  const { data, error } = await supabase
-    .from('guests')
-    .select('*')
-    .eq('email', email)
-    .single();
+  const { data, error } = await supabase.from("guests").select("*").eq("email", email).single();
 
   return data;
 }
 
 export async function getBooking(id) {
-  const { data, error, count } = await supabase
-    .from('bookings')
-    .select('*')
-    .eq('id', id)
-    .single();
+  const { data, error, count } = await supabase.from("bookings").select("*").eq("id", id).single();
 
   if (error) {
     console.error(error);
-    throw new Error('Booking could not get loaded');
+    throw new Error("Booking could not get loaded");
   }
 
   return data;
@@ -96,16 +86,16 @@ export async function getBooking(id) {
 
 export async function getBookings(guestId) {
   const { data, error, count } = await supabase
-    .from('bookings')
+    .from("bookings")
     .select(
-      'id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)'
+      "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, guestId, cabinId, cabins(name, image)"
     )
-    .eq('guestId', guestId)
-    .order('startDate');
+    .eq("guestId", guestId)
+    .order("startDate");
 
   if (error) {
     console.error(error);
-    throw new Error('Bookings could not get loaded');
+    throw new Error("Bookings could not get loaded");
   }
 
   return data;
@@ -117,14 +107,14 @@ export async function getBookedDatesByCabinId(cabinId) {
   today = today.toISOString();
 
   const { data, error } = await supabase
-    .from('bookings')
-    .select('*')
-    .eq('cabinId', cabinId)
+    .from("bookings")
+    .select("*")
+    .eq("cabinId", cabinId)
     .or(`startDate.gte.${today},status.eq.checked-in`);
 
   if (error) {
     console.error(error);
-    throw new Error('Bookings could not get loaded');
+    throw new Error("Bookings could not get loaded");
   }
 
   // Converting to actual dates to be displayed in the date picker
@@ -141,11 +131,11 @@ export async function getBookedDatesByCabinId(cabinId) {
 }
 
 export async function getSettings() {
-  const { data, error } = await supabase.from('settings').select('*').single();
+  const { data, error } = await supabase.from("settings").select("*").single();
 
   if (error) {
     console.error(error);
-    throw new Error('Settings could not be loaded');
+    throw new Error("Settings could not be loaded");
   }
 
   return data;
@@ -153,13 +143,11 @@ export async function getSettings() {
 
 export async function getCountries() {
   try {
-    const res = await fetch(
-      'https://restcountries.com/v2/all?fields=name,flag'
-    );
+    const res = await fetch("https://restcountries.com/v2/all?fields=name,flag");
     const countries = await res.json();
     return countries;
   } catch {
-    throw new Error('Could not fetch countries');
+    throw new Error("Could not fetch countries");
   }
 }
 
@@ -167,11 +155,11 @@ export async function getCountries() {
 // CREATE
 
 export async function createGuest(newGuest) {
-  const { data, error } = await supabase.from('guests').insert([newGuest]);
+  const { data, error } = await supabase.from("guests").insert([newGuest]);
 
   if (error) {
     console.error(error);
-    throw new Error('Guest could not be created');
+    throw new Error("Guest could not be created");
   }
 
   return data;
